@@ -1,0 +1,156 @@
+<template name="printInvoice">
+    {{#if currentUser}}
+        {{#if isInRole 'cashier'}}
+            <div class="bar bar-header bar-positive nav-bar-block nav-bar-transition-ios nav-bar-direction-forward"
+                 data-navbar-container="">
+                <button class="button button-clear pull-left button-entering button-active js-back">
+                    <!--<a>-->
+                        <button class="buttons button button-clear back-button pull-left">
+                            <i class="icon ion-ios-arrow-back"></i>
+                            <span class="back-text">ថយក្រោយ</span>
+                        </button>
+                    <!--</a>-->
+                </button>
+                <h1 class="title">បេាះពុម្ពវិកយប័ត្រ</h1>
+            </div>
+
+            {{#ionView}}
+                {{#ionContent}}
+                    <button id="print" class="button button-small button-positive js-generate"
+                            style="float: right;margin-top: 20px;margin-right: 20px;">
+                        {{> ionIcon class="ion ion-printer"}}
+                        Print Report
+                    </button>
+
+                    <div class="service-report" style="margin-bottom: 100px;margin-top: 20px;">
+                        <div class="print" style="width: 255px;margin: 0 auto;padding-top: 15px;padding-bottom: 15px;">
+                            {{#if serviceReport}}
+                                {{#each company}}
+                                    <h4 style="text-align: center;">{{companyName}}</h4>
+                                    <div class="service-rp-content" style="text-align: center;">អាសយដ្ឋាន
+                                        : {{address}}</div>
+                                    <div class="service-rp-content" style="text-align: center;">ទូរស័ព្ទ : {{tel}}</div>
+                                {{/each}}
+                                {{#each serviceReport.content}}
+                                    <hr style="border-top: 1px dashed #8c8b8b;">
+                                    <div class="row">
+                                        <div class="col service-rp-content"># : {{_id}}</div>
+                                        <div class="col service-rp-content">អតិថិជន
+                                            : {{customer}}</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col service-rp-content">ថ្ងៃមកបោក
+                                            : {{moFormat deliveryDate 'DD/MM/YYYY'}}</div>
+
+                                        <div class="col service-rp-content">ទូរស័ព្ទ
+                                            : {{tel}}</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col service-rp-content">ថ្ងៃមកយក
+                                            : {{moFormat receiveDate 'DD/MM/YYYY'}}</div>
+
+                                        <div class="col service-rp-content">បុគ្គលិក
+                                            : {{staff}}</div>
+                                    </div>
+
+                                    <table class="report-content">
+                                        <thead class="content-header">
+                                        <tr>
+                                            <th>សេវាកម្ម</th>
+                                            <th>ចំ.</th>
+                                            <th>តម្លៃ</th>
+                                            <th>សរុប</th>
+                                        </tr>
+                                        </thead>
+                                        {{#each serviceDetail}}
+                                            <tbody class="content-body">
+                                            <tr>
+                                                <td>{{itemName}}</td>
+                                                <td>{{qty}}</td>
+                                                <td>{{price}}៛</td>
+                                                <td>{{amount}}៛</td>
+                                            </tr>
+                                            </tbody>
+                                        {{/each}}
+                                    </table>
+                                    <div class="row">
+                                        <div class="col-50">
+                                            <div class="row">
+                                                <div class="col service-rp-content"
+                                                     style='min-height:100px;border:1px solid #ECEAE9;border-radius:3px;padding: 3px;'>
+                                                    {{description}}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-50">
+                                            <div class="row">
+                                                <div class="col-50">
+                                                    <div class="service-rp-content">តម្លៃសរុប :</div>
+                                                </div>
+                                                <div class="col-50">
+                                                    <div style="text-align: right"
+                                                         class="service-rp-content">{{total}}៛
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-50">
+                                                    <div class="service-rp-content">បញ្ចុះតម្លៃ :</div>
+                                                </div>
+                                                <div class="col-50">
+                                                    <div style="text-align: right"
+                                                         class="service-rp-content">{{discount}} %
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-50">
+                                                    <div class="service-rp-content">ត្រូវបង់ :</div>
+                                                </div>
+                                                <div class="col-50">
+                                                    <div style="text-align: right"
+                                                         class="service-rp-content">{{grandTotal}}៛
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-50">
+                                                    <div class="service-rp-content">បានបង់ :</div>
+                                                </div>
+                                                {{#if checkPayment paidAmount}}
+                                                    <div class="col-50">
+                                                        <div style="text-align: right"
+                                                             class="service-rp-content">0៛
+                                                        </div>
+                                                    </div>
+                                                {{else}}
+                                                    <div class="col-50">
+                                                        <div style="text-align: right"
+                                                             class="service-rp-content">{{paidAmount}}៛
+                                                        </div>
+                                                    </div>
+                                                {{/if}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr style="border-top: 1px dashed #8c8b8b;">
+                                    <div class="service-rp-content" style="text-align: center;"><u>បញ្ជាក់៖</u>
+                                        ហាមជំពាក់
+                                    </div>
+                                    <div class="service-rp-content" style="text-align: center;">អរគុណ
+                                        សូមអញ្ជើញមកទីនេះម្តងទៀត។
+                                    </div>
+                                {{/each}}
+                            {{/if}}
+                        </div>
+                    </div>
+
+                {{/ionContent}}
+            {{/ionView}}
+        {{else}}
+            {{> checkRoleUser}}
+        {{/if}}
+    {{else}}
+        {{> login}}
+    {{/if}}
+</template>

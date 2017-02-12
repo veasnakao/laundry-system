@@ -1,0 +1,72 @@
+<template name="customerInfo">
+    {{#if currentUser}}
+        {{#if isInRole 'cashier'}}
+            <div class="bar bar-header bar-positive nav-bar-block nav-bar-transition-ios nav-bar-direction-forward"
+                 data-navbar-container="">
+                <button class="button button-clear pull-left button-entering button-active">
+                    <a href="/showCustomer">
+                        <button class="buttons button button-clear back-button pull-left">
+                            <i class="icon ion-ios-arrow-back"></i>
+                            <span class="back-text">ថយក្រោយ</span>
+                        </button>
+                    </a>
+                </button>
+                <h1 class="title">ពត៌មានអតិថិជន</h1>
+            </div>
+            {{#ionView}}
+                {{#ionContent}}
+                    {{#ionList}}
+                        {{#with customerInfo}}
+                            {{#ionItem}}
+                                <div class="row">
+                                    <div class="col col-33 col-offset-10"><h2 style="padding: 5px;">ឈ្មេាះ</h2></div>
+                                    <div class="col"><h2>:</h2></div>
+                                    <div class="col col-80">
+                                        <h2 style="padding: 5px;">{{name}}</h2>
+                                    </div>
+                                </div>
+                            {{/ionItem}}
+                            {{#ionItem}}
+                                <div class="row">
+                                    <div class="col col-33 col-offset-10"><h2 style="padding: 5px;">ភេទ</h2></div>
+                                    <div class="col"><h2>:</h2></div>
+                                    <div class="col col-80">
+                                        <h2 style="padding: 5px;">{{gender}}</h2>
+                                    </div>
+                                </div>
+                            {{/ionItem}}
+                            {{#ionItem}}
+                                <div class="row">
+                                    <div class="col col-33 col-offset-10"><h2 style="padding: 5px;">ទូរស័ព្ទ</h2></div>
+                                    <div class="col"><h2>:</h2></div>
+                                    <div class="col col-80">
+                                        <h2 style="padding: 5px;">{{tel}}</h2>
+                                    </div>
+                                </div>
+                            {{/ionItem}}
+                        {{/with}}
+                    {{/ionList}}
+                    <div class="row">
+                        <div class="col">
+                            <button class="button button-block button-assertive delete-customer">
+                                {{> ionIcon icon="ion ion-android-delete"}}
+                                លុប
+                            </button>
+                        </div>
+                        <div class="col">
+                            <button class="button button-block button-positive" data-ion-modal="editCustomer"
+                                    data-id="{{customerInfo._id}}">
+                                {{> ionIcon icon="ion ion-edit"}}
+                                កែប្រែ
+                            </button>
+                        </div>
+                    </div>
+                {{/ionContent}}
+            {{/ionView}}
+        {{else}}
+            {{> checkRoleUser}}
+        {{/if}}
+    {{else}}
+        {{> login}}
+    {{/if}}
+</template>

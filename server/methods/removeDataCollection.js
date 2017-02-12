@@ -1,0 +1,26 @@
+Meteor.methods({
+    removeIncomeByStaff(id){
+        Collection.IncomeByStaff.remove(id);
+    },
+    removeStaff(id){
+        Collection.Staff.remove(id);
+    },
+    removeCustomer(id){
+        Collection.Customer.remove(id);
+    },
+    removeOrderItem(id){
+        Collection.Item.remove(id);
+    },
+    removeJournalItem(id){
+        Collection.JournalItem.remove(id);
+    },
+    removeJournalEntry(id){
+        Collection.JournalEntry.remove(id);
+    },
+    removeJournalEntryByOrder(orderId){
+        Collection.JournalEntry.remove({orderId: orderId});
+    },
+    removeUser(userId){
+        Meteor.users.remove(userId);
+    }
+});

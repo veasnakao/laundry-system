@@ -1,0 +1,62 @@
+<template name="sideMenu">
+    <!--{{#if currentUser}}-->
+        {{#ionSideMenus}}
+            {{#ionSideMenu}}
+                <div class="bar bar-header bar-dark">
+                    <img src="img-side-left.jpg" alt="" class="full-image">
+                </div>
+
+                <div class="content has-header">
+                    <div class="list">
+                        {{#if isInRole 'cashier'}}
+                            <a href="/" class="item item-icon-left item-icon-right" data-ion-menu-close
+                               style="top:55px;">
+                                {{> ionIcon icon="ion ion-home"}}<span>ទំព័រដើម</span>
+                            </a>
+                            <!--<a href="/showIncomeByStaff" class="item item-icon-left item-icon-right" data-ion-menu-close-->
+                               <!--style="top:55px;">-->
+                                <!--{{> ionIcon icon="ion ion-cash"}}-->
+                                <!--Income By Staff {{> ionIcon icon="ios-arrow-right"}}-->
+                            <!--</a>-->
+                            <a href="/showCustomer" class="item item-icon-left item-icon-right" data-ion-menu-close
+                               style="top:55px;">
+                                {{> ionIcon icon="ion ion-ios-people"}}
+                                អតិថិជន {{> ionIcon icon="ios-arrow-right"}}
+                            </a>
+                            <a href="/showOrder" class="item item-icon-left item-icon-right" data-ion-menu-close
+                               style="top:55px;">
+                                {{> ionIcon icon="ion ion-bag"}}
+                                បញ្ជាទិញ {{> ionIcon icon="ios-arrow-right"}}
+                            </a>
+                        {{/if}}
+                        {{#if isInRole 'setting'}}
+                            <!--<a href="/showJournalEntry" class="item item-icon-left item-icon-right"-->
+                               <!--data-ion-menu-close-->
+                               <!--style="top:55px;">-->
+                                <!--{{> ionIcon icon="ion ion-arrow-graph-up-right"}}-->
+                                <!--Journal Entry {{> ionIcon icon="ios-arrow-right"}}-->
+                            <!--</a>-->
+                            <a href="/reports" class="item item-icon-left item-icon-right" data-ion-menu-close
+                               style="top:55px;">
+                                {{> ionIcon icon="ion ion-clipboard"}}
+                                របាយការណ៍ {{> ionIcon icon="ios-arrow-right"}}
+                            </a>
+                            <a href="/setting" class="item item-icon-left item-icon-right" data-ion-menu-close
+                               style="top:55px;">
+                                {{> ionIcon icon="ion ion-android-settings"}}
+                                ការកំណត់ {{> ionIcon icon="ios-arrow-right"}}
+                            </a>
+                        {{/if}}
+                        <a href="/login" class="item item-icon-left item-icon-right js-logout"
+                           data-ion-menu-close
+                           style="top:55px;">
+                            {{> ionIcon icon="ion ion-log-out"}}<span>ចាកចេញ</span>
+                        </a>
+                    </div>
+                </div>
+            {{/ionSideMenu}}
+        {{/ionSideMenus}}
+    <!--{{else}}-->
+        <!--{{> login}}-->
+    <!--{{/if}}-->
+</template>

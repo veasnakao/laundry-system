@@ -1,0 +1,26 @@
+<template name="editOrder">
+    {{#ionModal customTemplate=true}}
+        {{#autoForm collection="Collection.OrderDetail" doc=itemOrder id="editOrder" type="update"}}
+            <div class="bar bar-header bar-stable" style="background-color: #387ef5;">
+                <h2 class="title" style="color: white;">កែប្រែ</h2>
+                <button data-dismiss="modal" type="button" class="button button-clear pull-left" style="color: white;">
+                    {{> ionIcon icon="ion ion-close-circled"}}
+                </button>
+            </div>
+            <div class="content has-header overflow-scroll">
+                {{> afQuickField name='quantity' class='js-quantity'}}
+                {{> afQuickField name='price' lable='Price' class='js-price'}}
+                {{> afQuickField name='discount' label='Discount (%)'  class='js-discount'}}
+                {{> afQuickField name='amount' label='Amount ($)' readonly=true class='js-amount' style="background-color: #EAEAE9;"}}
+                <div class="row">
+                    <div class="col">
+                        <button type="reset" class="button button-block button-calm">កំណត់សាថ្មី</button>
+                    </div>
+                    <div class="col">
+                        <button class="button button-block button-positive">កែប្រែ</button>
+                    </div>
+                </div>
+            </div>
+        {{/autoForm}}
+    {{/ionModal}}
+</template>

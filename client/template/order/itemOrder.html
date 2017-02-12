@@ -1,0 +1,490 @@
+<template name="addCustomerInOrder">
+    <button class="button button-positive"
+            data-ion-modal="addCustomer" style="margin-right:10px;">
+        {{> ionIcon class="ion-plus-circled"}}
+        បង្កើតអតិថិជន
+    </button>
+</template>
+<template name="addStaffInOrder">
+    <button class="button button-positive"
+            data-ion-modal="addStaff">
+        {{> ionIcon class="ion-plus-circled"}}
+        បង្កើតបុគ្គលិក
+    </button>
+</template>
+<template name="itemOrder">
+    {{#if currentUser}}
+        {{#if isInRole 'cashier'}}
+            <div class="bar bar-header bar-positive nav-bar-block nav-bar-transition-ios nav-bar-direction-forward"
+                 data-navbar-container="">
+                <button class="button button-clear pull-left button-entering button-active">
+                    <a href="/showOrder">
+                        <button class="buttons button button-clear back-button pull-left">
+                            <i class="icon ion-ios-arrow-back"></i>
+                            <span class="back-text">ថយក្រោយ</span>
+                        </button>
+                    </a>
+                </button>
+                <h1 class="title">ការបញ្ជាទិញ</h1>
+
+                <!--<button class="button button-clear pull-right button-entering button-active">-->
+                <!--<button data-ion-modal="searchCustomer" class="button button-clear pull-left search-item">-->
+                <!--{{> ionIcon icon="ion ion-ios-search-strong"}}-->
+                <!--</button>-->
+                <!--</button>-->
+
+                    <!--{{#contentFor "headerButtonRight"}}-->
+                {{#if checkStatus}}
+                    <!--<button data-ion-modal="searchItem" class="button button-clear pull-left search-item">-->
+                    <!--{{> ionIcon icon="ion ion-ios-search-strong"}}-->
+                    <!--</button>-->
+                {{/if}}
+                    <!--{{/contentFor}}-->
+            </div>
+
+            {{#ionView}}
+                {{#ionContent}}
+                    {{#if checkStatus}}
+                        <div class="card animated bounceInDown">
+                            <div class="row">
+                                {{> addCustomerInOrder}}
+                                {{> addStaffInOrder}}
+                            </div>
+                        </div>
+                        <div class="card animated bounceInDown">
+                            {{#autoForm collection="Collection.Order" id="orderList" doc=order}}
+                                <div class="row responsive-sm">
+                                    <div class="col-25">
+                                        {{> afQuickField name='customerId' class="js-customer"}}
+                                    </div>
+                                    <div class="col-25"></div>
+                                    <div class="col-25">
+                                        {{> afQuickField name='staffId' class="js-staff"}}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-50">
+                                        {{> afQuickField name='deliveryDate' class="deliveryDate" style='border:1px solid #ECEAE9;border-radius:3px;padding: 3px;'}}
+                                    </div>
+                                    <div class="col-50">
+                                        {{> afQuickField name='receiveDate' class="receiveDate" style='border:1px solid #ECEAE9;border-radius:3px;padding: 3px;'}}
+                                    </div>
+                                </div>
+                                {{> afQuickField name='description' rows=5 style='border:1px solid #ECEAE9;border-radius:3px;padding: 3px;'}}
+                            {{/autoForm}}
+                        </div>
+                    {{else}}
+                        {{#if order}}
+                            <div class="card animated bounceInDown">
+                                {{#autoForm collection="Collection.Order" id="orderList" doc=order}}
+                                    <div class="row responsive-sm">
+                                        <div class="col-25">
+                                            {{> afQuickField name='customerId' class="js-customer" disabled="true"}}
+                                        </div>
+                                        <div class="col-25"></div>
+                                        <div class="col-25">
+                                            {{> afQuickField name='staffId' class="js-staff" disabled="true"}}
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-50">
+                                            {{> afQuickField name='deliveryDate' disabled="true" class="deliveryDate" style='border:1px solid #ECEAE9;border-radius:3px;padding: 3px;'}}
+                                        </div>
+                                        <div class="col-50">
+                                            {{> afQuickField name='receiveDate' disabled="true" class="receiveDate" style='border:1px solid #ECEAE9;border-radius:3px;padding: 3px;'}}
+                                        </div>
+                                    </div>
+                                    {{> afQuickField readonly=true name='description' rows=5 style='border:1px solid #ECEAE9;border-radius:3px;padding: 3px;'}}
+                                {{/autoForm}}
+                            </div>
+                        {{/if}}
+                    {{/if}}
+
+                    {{#if checkStatus}}
+                        <div class="row">
+                            <div class="col-33">
+                                <div class="card">
+                                    <div class="list">
+                                        {{#if serviceItem}}
+                                            {{#each serviceItem}}
+                                                <div class="item" name="service-item"
+                                                     style="cursor: pointer;">
+                                                    <div class="row">
+                                                        <div class="col-75">
+                                                            {{name}}
+                                                        </div>
+                                                        <div class="col-25" style="color: #0c60ee;">
+                                                            {{price}} រៀល
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            {{/each}}
+                                        {{/if}}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-67">
+                                {{#each showOrderDetail}}
+                                    <div class="card">
+                                        <div class="item animated bounceInDown item-text-wrap">
+                                            <div class="row">
+                                                <div class="col">
+                                                    {{itemName}}
+                                                </div>
+                                                <div class="col" style="color: #0c60ee;">
+                                                    {{price}} រៀល
+                                                </div>
+                                                <div class="col">
+                                                    x{{quantity}}
+                                                </div>
+                                                <div class="col">
+                                                    {{discount}} %
+                                                </div>
+                                                <div class="col">
+                                                    {{amount}} រៀល
+                                                </div>
+                                            </div>
+                                            {{#if checkStatus}}
+                                                <div class="row">
+                                                    <div class="col">
+                                                        <div style="float: right">
+                                                            <button class="button button-balanced increase-quantity"
+                                                                    data-action="fake">
+                                                                {{> ionIcon class="ion ion-plus-round"}}
+                                                            </button>
+                                                            <button class="button button-assertive decrease-quantity">
+                                                                {{> ionIcon class="ion ion-minus-round"}}
+                                                            </button>
+                                                            <button class="button button-positive edit-order"
+                                                                    data-ion-modal="editOrder" data-id="{{_id}}"
+                                                                    data-qty="{{quantity}}">
+                                                                {{> ionIcon class="ion-edit"}}
+                                                            </button>
+                                                            <button class="button button-assertive delete-item-order">
+                                                                {{> ionIcon class="ion ion-trash-a"}}
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            {{/if}}
+                                        </div>
+                                    </div>
+                                {{/each}}
+                            </div>
+                        </div>
+                    {{else}}
+                        <div class="row">
+                            <div class="col">
+                                {{#each showOrderDetail}}
+                                    <div class="card">
+                                        <div class="item animated bounceInDown item-text-wrap">
+                                            <div class="row">
+                                                <div class="col">
+                                                    {{itemName}}
+                                                </div>
+                                                <div class="col" style="color: #0c60ee;">
+                                                    {{price}} រៀល
+                                                </div>
+                                                <div class="col">
+                                                    x{{quantity}}
+                                                </div>
+                                                <div class="col">
+                                                    {{discount}} %
+                                                </div>
+                                                <div class="col">
+                                                    {{amount}} រៀល
+                                                </div>
+                                            </div>
+                                            {{#if checkStatus}}
+                                                <div class="row">
+                                                    <div class="col">
+                                                        <div style="float: right">
+                                                            <button class="button button-balanced increase-quantity"
+                                                                    data-action="fake">
+                                                                {{> ionIcon class="ion ion-plus-round"}}
+                                                            </button>
+                                                            <button class="button button-assertive decrease-quantity">
+                                                                {{> ionIcon class="ion ion-minus-round"}}
+                                                            </button>
+                                                            <button class="button button-positive edit-order"
+                                                                    data-ion-modal="editOrder" data-id="{{_id}}"
+                                                                    data-qty="{{quantity}}">
+                                                                {{> ionIcon class="ion-edit"}}
+                                                            </button>
+                                                            <button class="button button-assertive delete-item-order">
+                                                                {{> ionIcon class="ion ion-trash-a"}}
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            {{/if}}
+                                        </div>
+                                    </div>
+                                {{/each}}
+                            </div>
+                        </div>
+                    {{/if}}
+
+                    <div class="row responsive-sm">
+                        <div class="col-offset-50 col-50">
+                            <div class="card">
+                                <div class="item item-text-wrap button-balanced">
+                                    {{#with showOrder}}
+                                        <div class="row">
+                                            <div class="col-50">Total :</div>
+                                            <div class="col-33">
+                                                <div style="float: right;">
+                                                    {{total}} រៀល
+                                                </div>
+                                            </div>
+                                            <div class="col-10"></div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-50">Discount :</div>
+                                            <div class="col-33">
+                                                <div style="float: right;">
+                                                    {{#if checkDiscountType discountType}}
+                                                        {{numFormat discountVal '0,0.00 $'}}
+                                                    {{else}}
+                                                        {{discountVal}} %
+                                                    {{/if}}
+                                                </div>
+                                            </div>
+                                            {{#if checkStatus}}
+                                                <div class="col-25">
+                                                    <button class="button button-positive button-small"
+                                                            data-ion-modal="addDiscount"
+                                                            style="margin-top: -8px;margin-left:10px;">
+                                                        {{> ionIcon class="ion ion-edit"}}
+                                                    </button>
+                                                    <button class="button button-assertive button-small"
+                                                            style="margin-top: -8px;margin-left:10px;"
+                                                            name="delete-discount">
+                                                        {{> ionIcon class="ion ion-trash-a"}}
+                                                    </button>
+                                                </div>
+                                            {{/if}}
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-50">Grand Total :</div>
+                                            <div class="col-33">
+                                                <div style="float: right;">
+                                                    {{grandTotal}} រៀល
+                                                </div>
+                                            </div>
+                                            <div class="col-10"></div>
+                                        </div>
+                                    {{/with}}
+                                    {{#if payment}}
+                                        {{#with payment}}
+                                            <div class="row">
+                                                <div class="col-50">
+                                                    Paid Amount :
+                                                </div>
+                                                <div class="col-33">
+                                                    <div style="float: right;">
+                                                        {{numFormat paidAmount '0,0.00 $'}}
+                                                    </div>
+                                                </div>
+                                                <div class="col-10"></div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-50">
+                                                    Balance :
+                                                </div>
+                                                <div class="col-33">
+                                                    <div style="float: right;">
+                                                        {{numFormat balance '0,0.00 $'}}
+                                                    </div>
+                                                </div>
+                                                <div class="col-10"></div>
+                                            </div>
+                                        {{/with}}
+                                    {{else}}
+                                        <div class="row">
+                                            <div class="col-50">
+                                                Paid Amount :
+                                            </div>
+                                            <div class="col-33">
+                                                <div style="float: right;">
+                                                    {{paidAmount}} រៀល
+                                                </div>
+                                            </div>
+                                            <div class="col-10"></div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-50">
+                                                Balance :
+                                            </div>
+                                            <div class="col-33">
+                                                <div style="float: right;">
+                                                    {{balance}} រៀល
+                                                </div>
+                                            </div>
+                                            <div class="col-10"></div>
+                                        </div>
+                                    {{/if}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--js-paid-->
+                    <div class="row">
+                        {{#if order}}
+                            <div class="col">
+                                <button class="button button-round button-block button-assertive js-cancelOrder">
+                                    {{> ionIcon class="ion ion-trash-a"}}
+                                    លុបការបញ្ជាទិញ
+                                </button>
+                            </div>
+                        {{/if}}
+                        <div class="col">
+                            <button class="button button-round button-block button-positive js-payment">
+                                {{> ionIcon class="ion ion-cash"}}
+                                បង់ប្រាក់
+                            </button>
+                        </div>
+                        <div class="col">
+                            <button id="print" class="button button-round button-block button-positive">
+                                {{> ionIcon class="ion ion-printer"}}
+                                បេាះពុម្ព
+                            </button>
+                        </div>
+                    </div>
+
+
+                    <div class="service-report" style="margin-bottom: 100px;margin-top: 20px;">
+                        <div class="print" style="width: 255px;margin: 0 auto;padding-top: 15px;padding-bottom: 15px;">
+                            {{#if serviceReport}}
+                                {{#each company}}
+                                    <h4 style="text-align: center;">{{companyName}}</h4>
+                                    <div class="service-rp-content" style="text-align: center;">អាសយដ្ឋាន
+                                        : {{address}}</div>
+                                    <div class="service-rp-content" style="text-align: center;">ទូរស័ព្ទ : {{tel}}</div>
+                                {{/each}}
+                                {{#each serviceReport.content}}
+                                    <hr style="border-top: 1px dashed #8c8b8b;">
+                                    <div class="row">
+                                        <div class="col service-rp-content"># : {{_id}}</div>
+                                        <div class="col service-rp-content">អតិថិជន
+                                            : {{customer}}</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col service-rp-content">ថ្ងៃមកបោក
+                                            : {{moFormat deliveryDate 'DD/MM/YYYY'}}</div>
+
+                                        <div class="col service-rp-content">ទូរស័ព្ទ
+                                            : {{tel}}</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col service-rp-content">ថ្ងៃមកយក
+                                            : {{moFormat receiveDate 'DD/MM/YYYY'}}</div>
+
+                                        <div class="col service-rp-content">បុគ្គលិក
+                                            : {{staff}}</div>
+                                    </div>
+
+                                    <table class="report-content">
+                                        <thead class="content-header">
+                                        <tr>
+                                            <th>សេវាកម្ម</th>
+                                            <th>ចំ.</th>
+                                            <th>តម្លៃ</th>
+                                            <th>សរុប</th>
+                                        </tr>
+                                        </thead>
+                                        {{#each serviceDetail}}
+                                            <tbody class="content-body">
+                                            <tr>
+                                                <td>{{itemName}}</td>
+                                                <td>{{qty}}</td>
+                                                <td>{{price}}៛</td>
+                                                <td>{{amount}}៛</td>
+                                            </tr>
+                                            </tbody>
+                                        {{/each}}
+                                    </table>
+                                    <div class="row">
+                                        <div class="col-50">
+                                            <div class="row">
+                                                <div class="col service-rp-content"
+                                                     style='min-height:100px;border:1px solid #ECEAE9;border-radius:3px;padding: 3px;'>
+                                                    បរិយាយ
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-50">
+                                            <div class="row">
+                                                <div class="col-50">
+                                                    <div class="service-rp-content">តម្លៃសរុប :</div>
+                                                </div>
+                                                <div class="col-50">
+                                                    <div style="text-align: right"
+                                                         class="service-rp-content">{{total}}៛
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-50">
+                                                    <div class="service-rp-content">បញ្ចុះតម្លៃ :</div>
+                                                </div>
+                                                <div class="col-50">
+                                                    <div style="text-align: right"
+                                                         class="service-rp-content">{{discount}} %
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-50">
+                                                    <div class="service-rp-content">ត្រូវបង់ :</div>
+                                                </div>
+                                                <div class="col-50">
+                                                    <div style="text-align: right"
+                                                         class="service-rp-content">{{grandTotal}}៛
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-50">
+                                                    <div class="service-rp-content">បានបង់ :</div>
+                                                </div>
+                                                {{#if checkPayment paidAmount}}
+                                                    <div class="col-50">
+                                                        <div style="text-align: right"
+                                                             class="service-rp-content">0៛
+                                                        </div>
+                                                    </div>
+                                                {{else}}
+                                                    <div class="col-50">
+                                                        <div style="text-align: right"
+                                                             class="service-rp-content">{{paidAmount}}៛
+                                                        </div>
+                                                    </div>
+                                                {{/if}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr style="border-top: 1px dashed #8c8b8b;">
+                                    <div class="service-rp-content" style="text-align: center;"><u>បញ្ជាក់៖</u>
+                                        ហាមជំពាក់
+                                    </div>
+                                    <div class="service-rp-content" style="text-align: center;">អរគុណ
+                                        សូមអញ្ជើញមកទីនេះម្តងទៀត។
+                                    </div>
+                                {{/each}}
+                            {{/if}}
+                        </div>
+                    </div>
+
+                {{/ionContent}}
+            {{/ionView}}
+        {{else}}
+            {{> checkRoleUser}}
+        {{/if}}
+    {{else}}
+        {{> login}}
+    {{/if}}
+</template>
+

@@ -1,0 +1,66 @@
+<template name="itemInfo">
+    {{#if currentUser}}
+        {{#if isInRole 'setting'}}
+            <div class="bar bar-header bar-positive nav-bar-block nav-bar-transition-ios nav-bar-direction-forward"
+                 data-navbar-container="">
+                <button class="button button-clear pull-left button-entering button-active">
+                    <a href="/showItem">
+                        <button class="buttons button button-clear back-button pull-left">
+
+                            <!--{{>ionNavBackButton path="setting"}}-->
+                            <i class="icon ion-ios-arrow-back"></i>
+                            <span class="back-text">ថយក្រោយ</span>
+                        </button>
+                    </a>
+                </button>
+                <h1 class="title">សេវាកម្ម</h1>
+            </div>
+            {{#ionView}}
+                {{#ionContent}}
+                    {{#ionList}}
+                        {{#with itemInfo}}
+                            {{#ionItem}}
+                                <div class="row" style="padding:3px;">
+                                    <div class="col col-33 col-offset-10"><h2>ប្រភេទ</h2></div>
+                                    <div class="col"><h2>:</h2></div>
+                                    <div class="col col-80">
+                                        <h2>{{name}}</h2>
+                                    </div>
+                                </div>
+                            {{/ionItem}}
+                            {{#ionItem}}
+                                <div class="row">
+                                    <div class="col col-33 col-offset-10"><h2>តម្លៃ</h2></div>
+                                    <div class="col"><h2>:</h2></div>
+                                    <div class="col col-80">
+                                        <h2>{{price}} រៀល</h2>
+                                    </div>
+                                </div>
+                            {{/ionItem}}
+                        {{/with}}
+                    {{/ionList}}
+                    <div class="row">
+                        <div class="col">
+                            <button class="button button-block button-assertive delete-orderItem">
+                                {{> ionIcon icon="ion ion-android-delete"}}
+                                លុប
+                            </button>
+                        </div>
+                        <div class="col">
+                            <button class="button button-block button-positive" data-ion-modal="editItem"
+                                    data-id="{{itemInfo._id}}">
+                                {{> ionIcon icon="ion ion-edit"}}
+                                កែប្រែ
+                            </button>
+                        </div>
+                    </div>
+
+                {{/ionContent}}
+            {{/ionView}}
+        {{else}}
+            {{> checkRoleUser}}
+        {{/if}}
+    {{else}}
+        {{> login}}
+    {{/if}}
+</template>

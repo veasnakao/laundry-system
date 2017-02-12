@@ -1,0 +1,17 @@
+<template name="index">
+    {{#if currentUser}}
+        {{> sideMenuLeft}}
+        {{#contentFor "headerTitle"}}
+            <h1 class="title"></h1>
+        {{/contentFor}}
+        {{#ionView}}
+            {{#ionContent}}
+                {{#ionView class="home-bg"}}
+                {{/ionView}}
+            {{/ionContent}}
+        {{/ionView}}
+    {{else}}
+        {{> login}}
+    {{/if}}
+</template>
+

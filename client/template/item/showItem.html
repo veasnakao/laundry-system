@@ -1,0 +1,40 @@
+<template name="showItem">
+    {{#if currentUser}}
+        {{#if isInRole 'setting'}}
+            <div class="bar bar-header bar-positive nav-bar-block nav-bar-transition-ios nav-bar-direction-forward"
+                 data-navbar-container="">
+                <button class="button button-clear pull-left button-entering button-active">
+                    <a href="/setting">
+                        <button class="buttons button button-clear back-button pull-left">
+
+                            <!--{{>ionNavBackButton path="setting"}}-->
+                            <i class="icon ion-ios-arrow-back"></i>
+                            <span class="back-text">ថយក្រោយ</span>
+                        </button>
+                    </a>
+                </button>
+                <h1 class="title">បញ្ជីសេវាកម្ម</h1>
+                <button class="button button-clear pull-left" data-ion-modal="addItem">
+                    <i class="icon ion-ion ion-plus-circled"></i>
+                </button>
+            </div>
+            {{#ionView}}
+                {{#ionContent}}
+                    {{#ionList}}
+                        {{#each showItem}}
+                            {{#ionItem path="itemInfo" iconRight=true}}
+                                <h2 style="padding-top:5px;padding-bottom: 10px;">{{name}}</h2>
+                                <p style="color: #356aa0;">{{price}} រៀល</p>
+                                {{> ionIcon icon="ios-arrow-right"}}
+                            {{/ionItem}}
+                        {{/each}}
+                    {{/ionList}}
+                {{/ionContent}}
+            {{/ionView}}
+        {{else}}
+            {{> checkRoleUser}}
+        {{/if}}
+    {{else}}
+        {{> login}}
+    {{/if}}
+</template>
